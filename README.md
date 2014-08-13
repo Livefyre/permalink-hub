@@ -1,18 +1,22 @@
-The gist of this example is communicating relavent information for permalinks through the use of postMessage. Since postMessage can be used on anyone the following messaging format is used:
+Permalink Hub
+=============
 
+The gist of this example is communicating relavent information for permalinks through the use of postMessage. Since postMessage can be used on anyone the following messaging format is used:
+'''
 {
     subject: 'im-your-friend'
     sender: 'me'
     action: 'put' || 'post' || 'get'
     data: { some: 'payload' }
 }
-
+'''
 The object should be JSONified using JSON.stringify (or whatever method your choose) to maximize compatibility. 
 
 
 The code is broken down into three parts: hub, modal, and app.
 
 Hub
+---
 The hub is loaded before anything else is required on the page. In this simple example I'm not pulling down everything as is, so I just insantiate it first. Hub acts as a proxy between the permalink modal and any apps that may have permalink functionality built in. The reason the Hub sits between the Apps and the Modal is to simplify determining what can deal with permalinking on a given page and when the time comes who actually should.
 
 
@@ -29,6 +33,7 @@ Command For App to Permalink - on Request For App to Permalink
 
 
 Modal
+-----
 This code will go in the actual permalink app with a few tweaks. The idea is that the Modal will be told by the Hub what apps are on the page, so that the Modal can populate buttons on itself for alernative viewing options when apps can handle doing so. When one of these buttons are clicked Modal should perform whatever work it needs to do in itself and then send a message to the Hub asking it to tell the appropriate app to open up the permalink content
 
 
@@ -42,6 +47,7 @@ Request For App to Permalink - on button click
 
 
 App
+---
 This code or something like it belongs in any App that wants to handle the permalinking for its own collection. 
 
 
@@ -53,17 +59,21 @@ App Registration - on load
 
 
 
-Messages:
-Permalink Modal Registration 
+Messages
+--------
+### Permalink Modal Registration 
+'''
 {
     subject: 'permalink'
     sender: 'permalink-modal'
     action: 'post' 
     data: {}
 }
+'''
 
 
-App Registration
+### App Registration
+'''
 {
     subject: 'permalink'
     sender: 'a-id-for-your-app' 
@@ -74,8 +84,10 @@ App Registration
         collectionId: 'whatever-collection-your-app-is-watching'
     }
 }
+'''
 
-Request For App To Permalink
+### Request For App To Permalink
+'''
 {
     subject: 'permalink'
     sender: 'permalink-modal' 
@@ -87,8 +99,10 @@ Request For App To Permalink
         contentId: 'id-of-content-to-show'
     }
 }
+'''
 
-App Info to Modal
+### App Info to Modal
+'''
 {
     subject: 'permalink-modal'
     sender: 'permalink' 
@@ -99,22 +113,14 @@ App Info to Modal
         collectionId: 'whatever-collection-the-app-is-watching'
     }
 }
+'''
 
-Command For App to Permalink
+### Command For App to Permalink
+'''
 {
     subject: 'id-of-app-handling-this-message'
     sender: 'permalink' 
     action: 'put' 
     data: same as Request For App To Permalink
 }
-
-
-
-
-
-{
-    subject: 'permalink'
-    sender: 'permalink-modal'
-    action: 'put' || 'post' 
-    data: 
-}
+'''
