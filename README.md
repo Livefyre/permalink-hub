@@ -2,14 +2,14 @@ Permalink Hub
 =============
 
 The gist of this example is communicating relavent information for permalinks through the use of postMessage. Since postMessage can be used on anyone the following messaging format is used:
-'''
+```
 {
     subject: 'im-your-friend'
     sender: 'me'
     action: 'put' || 'post' || 'get'
     data: { some: 'payload' }
 }
-'''
+```
 The object should be JSONified using JSON.stringify (or whatever method your choose) to maximize compatibility. 
 
 
@@ -62,18 +62,18 @@ App Registration - on load
 Messages
 --------
 ### Permalink Modal Registration 
-'''
+```
 {
     subject: 'permalink'
     sender: 'permalink-modal'
     action: 'post' 
     data: {}
 }
-'''
+```
 
 
 ### App Registration
-'''
+```
 {
     subject: 'permalink'
     sender: 'a-id-for-your-app' 
@@ -84,10 +84,10 @@ Messages
         collectionId: 'whatever-collection-your-app-is-watching'
     }
 }
-'''
+```
 
 ### Request For App To Permalink
-'''
+```
 {
     subject: 'permalink'
     sender: 'permalink-modal' 
@@ -99,10 +99,10 @@ Messages
         contentId: 'id-of-content-to-show'
     }
 }
-'''
+```
 
 ### App Info to Modal
-'''
+```
 {
     subject: 'permalink-modal'
     sender: 'permalink' 
@@ -113,14 +113,14 @@ Messages
         collectionId: 'whatever-collection-the-app-is-watching'
     }
 }
-'''
+```
 
 ### Command For App to Permalink
-'''
+```
 {
     subject: 'id-of-app-handling-this-message'
     sender: 'permalink' 
     action: 'put' 
     data: same as Request For App To Permalink
 }
-'''
+```
