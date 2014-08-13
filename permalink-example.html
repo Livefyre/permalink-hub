@@ -1,0 +1,105 @@
+<html>
+    <head>
+        <style>
+            .status {
+                height: 50px;
+                background-color: yellow;
+            }
+
+            .status.success {
+                background-color: green;
+            }
+
+            .status.failure {
+                background-color: red;
+            }
+
+            .app {
+                width: 200px;
+                border: 1px solid black;
+                display:inline-block;
+                margin: 5px;
+            }
+
+            .main-comms {
+                height: 200px;
+                margin-bottom: 10px;
+                overflow-y: scroll;
+            }
+
+            .comms {
+                height: 300px;
+                overflow-y: scroll;
+            }
+        </style>
+    </head>
+    <body>
+        <script type="text/javascript" src ="permalink-hub.js"></script>
+
+        <div class="main-comms">
+            <ul class="all-comms"></ul>
+        </div>
+        <button type="button">Clear</button>
+
+        <script type="text/javascript">
+            var comms = document.getElementsByClassName('all-comms')[0];
+            window.addEventListener("message", function(event){
+                comms.innerHTML = comms.innerHTML + '<li>'+ event.data +'</li>';
+                console.log(event.data);
+            }, false);
+            var btn = document.getElementsByTagName('button')[0];
+            btn.onclick = function(){
+                comms.innerHTML = "";
+            }
+        </script>
+
+
+        <div class="status-box">
+            <div class="app app1"></div>
+            <div class="app app2"></div>
+            <div class="app app3"></div>  
+            <div class="app app4"></div>          
+            <div class="app modal"></div>
+        </div>
+
+        <script src="permalink-app.js"></script>
+        <script src="permalink-modal.js"></script>
+        <script type="text/javascript">
+            var hub = new PermalinkHub();
+
+            var app1 = new PermalinkApp({
+                el: document.getElementsByClassName('app1')[0],
+                name: 'App 1',
+                collectionId: 1,
+                contentId: 1
+            });
+
+            var app2 = new PermalinkApp({
+                el: document.getElementsByClassName('app2')[0],
+                name: 'App 2',
+                collectionId: 2,
+                contentId: 3
+            });
+
+            var app3 = new PermalinkApp({
+                el: document.getElementsByClassName('app3')[0],
+                name: 'App 3',
+                collectionId: 2,
+                contentId: 3
+            });
+
+            var app4 = new PermalinkApp({
+                el: document.getElementsByClassName('app4')[0],
+                name: 'App 4',
+                permalink: false,
+                collectionId: 2,
+                contentId: 1
+            });
+
+            var modal = new PermalinkModal({
+                el: document.getElementsByClassName('modal')[0],
+                name: 'Modal'
+            });
+        </script>
+    </body>
+</html>
