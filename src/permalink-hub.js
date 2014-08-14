@@ -1,3 +1,5 @@
+define([], function(){
+
 function PermalinkHub(opts){
     this.collectionHandlers = {};
     this.hasPermalinkModal = false;
@@ -18,7 +20,6 @@ PermalinkHub.prototype.onPostMessage = function(event){
         }       
     }
 
-    console.log('hub processes event')
     if(msg.subject !== 'permalink' || !msg.data || !msg.action) 
         return;
 
@@ -63,7 +64,6 @@ PermalinkHub.prototype.messageAppToPermalink = function(data){
 };
 
 PermalinkHub.prototype.messageModalAppInfo = function(data){
-    console.log('Modale App Info ', data)
     var msg = {
         sender: 'permalink',
         subject: 'permalink-modal',
@@ -72,3 +72,7 @@ PermalinkHub.prototype.messageModalAppInfo = function(data){
     }
     window.postMessage(JSON.stringify(msg),'*');
 };
+
+
+return PermalinkHub;
+});

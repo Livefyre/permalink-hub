@@ -1,22 +1,28 @@
-function PermalinkModal(opts){
+define([], function(){
+
+function PermalinkApp(opts){
     this.$el = opts.el;
     this.name = opts.name;
     this.collectionId = opts.collectionId;
-    this.networkId = opts.networkId;
-
+    this.contentId = opts.contentId;
 
     this.render();
-    window.addEventListener('message', this.onPostMessage.bind(this), false);
-    this.sendRegistration();
+    
+    if(opts.permalink !== false){
+        this.sendRegistration();
+        window.addEventListener('message', this.onPostMessage.bind(this), false);
+    }
+    else{
+
+    }
 }
 
-//If message show button
-PermalinkModal.prototype.onPostMessage = function(event){
+//If msg is for me "show modal"
+//For this example that just means toggling status color
+PermalinkApp.prototype.onPostMessage = function(event){
     var msg = null; 
     var status = this.$el.getElementsByClassName('status')[0];
     var comms = this.$el.getElementsByClassName('comms')[0];
-    var footer = this.$el.getElementsByClassName('footer')[0];
-    var self = this;
 
     var toggleStatusTo = function($el, statusClassName){
         var classNames = ['failure', 'success'];
@@ -37,47 +43,35 @@ PermalinkModal.prototype.onPostMessage = function(event){
         }       
     }
 
-    if(msg.subject !== 'permalink-modal' || !msg.data || msg.action !== 'post') 
+    if(msg.subject !== this.name || !msg.data || msg.action !== 'put') 
         return;
 
     toggleStatusTo(status, 'success');
     comms.innerHTML = comms.innerHTML + '<li>'+ msg.action +'</li>';
-
-    var button = document.createElement('button');
-    button.setAttribute('type', 'button');
-    button.textContent = msg.data.name;
-    button.onclick = function(){
-        self.messageHubToPermalink(msg.data);
-    };
-
-
-    footer.appendChild(button);
 };
 
-PermalinkModal.prototype.messageHubToPermalink = function(data){
-        var message = {
-            sender: 'permalink-modal',
-            subject: 'permalink',
-            action: 'put',
-            data: data
-        };
-        window.postMessage(JSON.stringify(message),'*');
-}
-
-PermalinkModal.prototype.sendRegistration = function(){
+PermalinkApp.prototype.sendRegistration = function(){
     var msg = {
-        sender: 'permalink-modal',
+        sender: this.name,
         subject: 'permalink',
         action: 'post',
-        data: {}
+        data: {
+            name: this.name,
+            collectionId: this.collectionId,
+            networkId: this.networkId,
+        }
     };
     window.postMessage(JSON.stringify(msg),'*');
 };
 
-PermalinkModal.prototype.render = function(){
-    var template = '<div class="header">Permanlink Modal</div>\
+PermalinkApp.prototype.render = function(){
+    var template = '<div class="header"> <div class="collection-stuff">'+ this.name +'</div> </div>\
         <div class="status"></div>\
         <ul class="comms"></ul>\
         <div class="footer"></div>';
     this.$el.innerHTML = template;
 };
+
+
+return PermalinkApp;
+});
