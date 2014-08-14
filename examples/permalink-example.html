@@ -70,7 +70,9 @@
         <script type="text/javascript">
             require(['permalink-hub'],
                 function(PermalinkHub){
-                    var hub = new PermalinkHub();
+                    var hub = new PermalinkHub({
+                        bus: window
+                    });
 
                     var app1 = new PermalinkHub.App({
                         el: document.getElementsByClassName('app1')[0],
@@ -103,37 +105,6 @@
                     })
 
             });
-            /*var hub = new PermalinkHub();
-
-            var app1 = new PermalinkApp({
-                el: document.getElementsByClassName('app1')[0],
-                name: 'App 1',
-                collectionId: 1
-            });
-
-            var app2 = new PermalinkApp({
-                el: document.getElementsByClassName('app2')[0],
-                name: 'App 2',
-                collectionId: 2
-            });
-
-            var app3 = new PermalinkApp({
-                el: document.getElementsByClassName('app3')[0],
-                name: 'App 3',
-                collectionId: 2
-            });
-
-            var app4 = new PermalinkApp({
-                el: document.getElementsByClassName('app4')[0],
-                name: 'App 4',
-                permalink: false,
-                collectionId: 2
-            });
-
-            var modal = new PermalinkModal({
-                el: document.getElementsByClassName('modal')[0],
-                name: 'Modal'
-            });*/
         </script>
     </body>
 </html>

@@ -3,8 +3,9 @@ define([], function(){
 function PermalinkHub(opts){
     this.collectionHandlers = {};
     this.hasPermalinkModal = false;
+    this.bus = opts.bus || window;
 
-    window.addEventListener('message', this.onPostMessage.bind(this), false);
+    this.bus.addEventListener('message', this.onPostMessage.bind(this), false);
 }
 
 PermalinkHub.prototype.onPostMessage = function(event){
@@ -20,18 +21,18 @@ PermalinkHub.prototype.onPostMessage = function(event){
         }       
     }
 
-    if(msg.subject !== 'permalink' || !msg.data || !msg.action) 
+    if(msg.to !== 'permalink' || !msg.data || !msg.action) 
         return;
 
     if(msg.action === 'post'){
-        if(msg.sender === 'permalink-modal')
+        if(msg.from === 'permalink-modal')
             this.receiveModalRegistration(msg.data);
         else
             this.receiveAppRegistration(msg.data);
     }
 
     if(msg.action === 'put'){
-        if(msg.sender === 'permalink-modal')
+        if(msg.from === 'permalink-modal')
             this.messageAppToPermalink(msg.data);
     }      
 };
@@ -55,22 +56,22 @@ PermalinkHub.prototype.receiveAppRegistration = function(data){
 
 PermalinkHub.prototype.messageAppToPermalink = function(data){
     var msg = {
-        sender: 'permalink',
-        subject: data.name,
+        from: 'permalink',
+        to: data.name,
         action: 'put',
         data: data
     }
-    window.postMessage(JSON.stringify(msg),'*');
+    this.bus.postMessage(JSON.stringify(msg),'*');
 };
 
 PermalinkHub.prototype.messageModalAppInfo = function(data){
     var msg = {
-        sender: 'permalink',
-        subject: 'permalink-modal',
+        from: 'permalink',
+        to: 'permalink-modal',
         action: 'post',
         data: data
     }
-    window.postMessage(JSON.stringify(msg),'*');
+    this.bus.postMessage(JSON.stringify(msg),'*');
 };
 
 

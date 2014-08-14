@@ -4,8 +4,8 @@ Permalink Hub
 The gist of this example is communicating relavent information for permalinks through the use of postMessage. Since postMessage can be used on anyone the following messaging format is used:
 ```
 {
-    subject: 'im-your-friend'
-    sender: 'me'
+    to: 'im-your-friend'
+    from: 'me'
     action: 'put' || 'post' || 'get'
     data: { some: 'payload' }
 }
@@ -64,8 +64,8 @@ Messages
 ### Permalink Modal Registration 
 ```
 {
-    subject: 'permalink'
-    sender: 'permalink-modal'
+    to: 'permalink'
+    from: 'permalink-modal'
     action: 'post' 
     data: {}
 }
@@ -75,11 +75,11 @@ Messages
 ### App Registration
 ```
 {
-    subject: 'permalink'
-    sender: 'a-id-for-your-app' 
+    to: 'permalink'
+    from: 'a-id-for-your-app' 
     action: 'post' 
     data: {
-        id: 'a-id-for-your-app' (same as sender)
+        id: 'a-id-for-your-app' (same as from)
         name: 'Text Used For Button'
         collectionId: 'whatever-collection-your-app-is-watching'
     }
@@ -89,8 +89,8 @@ Messages
 ### Request For App To Permalink
 ```
 {
-    subject: 'permalink'
-    sender: 'permalink-modal' 
+    to: 'permalink'
+    from: 'permalink-modal' 
     action: 'put' 
     data: {
         id: 'app-associated-with-button'
@@ -104,8 +104,8 @@ Messages
 ### App Info to Modal
 ```
 {
-    subject: 'permalink-modal'
-    sender: 'permalink' 
+    to: 'permalink-modal'
+    from: 'permalink' 
     action: 'post' 
     data: {
         id: 'app-id'
@@ -118,8 +118,8 @@ Messages
 ### Command For App to Permalink
 ```
 {
-    subject: 'id-of-app-handling-this-message'
-    sender: 'permalink' 
+    to: 'id-of-app-handling-this-message'
+    from: 'permalink' 
     action: 'put' 
     data: same as Request For App To Permalink
 }

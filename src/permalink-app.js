@@ -1,7 +1,7 @@
 define([], function(){
 
 function PermalinkApp(opts){
-    this.$el = opts.el;
+    this.$el = opts.el || document.createElement('div');
     this.name = opts.name;
     this.collectionId = opts.collectionId;
     this.contentId = opts.contentId;
@@ -52,8 +52,8 @@ PermalinkApp.prototype.onPostMessage = function(event){
 
 PermalinkApp.prototype.sendRegistration = function(){
     var msg = {
-        sender: this.name,
-        subject: 'permalink',
+        from: this.name,
+        to: 'permalink',
         action: 'post',
         data: {
             name: this.name,

@@ -39,7 +39,7 @@ PermalinkModal.prototype.onPostMessage = function(event){
         }       
     }
 
-    if(msg.subject !== 'permalink-modal' || !msg.data || msg.action !== 'post') 
+    if(msg.to !== 'permalink-modal' || !msg.data || msg.action !== 'post') 
         return;
 
     toggleStatusTo(status, 'success');
@@ -58,8 +58,8 @@ PermalinkModal.prototype.onPostMessage = function(event){
 
 PermalinkModal.prototype.messageHubToPermalink = function(data){
         var message = {
-            sender: 'permalink-modal',
-            subject: 'permalink',
+            from: 'permalink-modal',
+            to: 'permalink',
             action: 'put',
             data: data
         };
@@ -68,8 +68,8 @@ PermalinkModal.prototype.messageHubToPermalink = function(data){
 
 PermalinkModal.prototype.sendRegistration = function(){
     var msg = {
-        sender: 'permalink-modal',
-        subject: 'permalink',
+        from: 'permalink-modal',
+        to: 'permalink',
         action: 'post',
         data: {}
     };
