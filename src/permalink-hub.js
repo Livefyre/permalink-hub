@@ -1,79 +1,78 @@
 define([], function(){
+    function PermalinkHub(opts){
+        this.collectionHandlers = {};
+        this.hasPermalinkModal = false;
+        this.bus = opts.bus || window;
 
-function PermalinkHub(opts){
-    this.collectionHandlers = {};
-    this.hasPermalinkModal = false;
-    this.bus = opts.bus || window;
-
-    this.bus.addEventListener('message', this.onPostMessage.bind(this), false);
-}
-
-PermalinkHub.prototype.onPostMessage = function(event){
-    var msg = null; 
-
-    if(typeof event.data === 'object') 
-        msg = event.data 
-    else {
-        try{ 
-            msg = JSON.parse(event.data)
-        } catch(e){ 
-            return; 
-        }       
+        this.bus.addEventListener('message', this.onPostMessage.bind(this), false);
     }
 
-    if(msg.to !== 'permalink' || !msg.data || !msg.action) 
-        return;
+    PermalinkHub.prototype.onPostMessage = function(event){
+        var msg = null; 
 
-    if(msg.action === 'post'){
-        if(msg.from === 'permalink-modal')
-            this.receiveModalRegistration(msg.data);
-        else
-            this.receiveAppRegistration(msg.data);
-    }
+        if(typeof event.data === 'object') 
+            msg = event.data 
+        else {
+            try{ 
+                msg = JSON.parse(event.data)
+            } catch(e){ 
+                return; 
+            }       
+        }
 
-    if(msg.action === 'put'){
-        if(msg.from === 'permalink-modal')
-            this.messageAppToPermalink(msg.data);
-    }      
-};
+        if(msg.to !== 'permalink' || !msg.data || !msg.action) 
+            return;
 
-PermalinkHub.prototype.receiveModalHaveAppPermalink = function(data){
-    this.messageAppToPermalink(data);
-};
+        if(msg.action === 'post'){
+            if(msg.from === 'permalink-modal')
+                this.receiveModalRegistration(msg.data);
+            else
+                this.receiveAppRegistration(msg.data);
+        }
 
-PermalinkHub.prototype.receiveModalRegistration = function(data){
-    if(this.hasPermalinkModal) return;
-    this.hasPermalinkModal = true;
-    for(key in this.collectionHandlers)
-        this.messageModalAppInfo(this.collectionHandlers[key]);
-};
+        if(msg.action === 'put'){
+            if(msg.from === 'permalink-modal')
+                this.messageAppToPermalink(msg.data);
+        }      
+    };
 
-PermalinkHub.prototype.receiveAppRegistration = function(data){
-    this.collectionHandlers[data.collectionId] = data;
-    if(this.hasPermalinkModal)
-        this.messageModalAppInfo(data);
-};
+    PermalinkHub.prototype.receiveModalHaveAppPermalink = function(data){
+        this.messageAppToPermalink(data);
+    };
 
-PermalinkHub.prototype.messageAppToPermalink = function(data){
-    var msg = {
-        from: 'permalink',
-        to: data.name,
-        action: 'put',
-        data: data
-    }
-    this.bus.postMessage(JSON.stringify(msg),'*');
-};
+    PermalinkHub.prototype.receiveModalRegistration = function(data){
+        if(this.hasPermalinkModal) return;
+        this.hasPermalinkModal = true;
+        for(key in this.collectionHandlers)
+            this.messageModalAppInfo(this.collectionHandlers[key]);
+    };
 
-PermalinkHub.prototype.messageModalAppInfo = function(data){
-    var msg = {
-        from: 'permalink',
-        to: 'permalink-modal',
-        action: 'post',
-        data: data
-    }
-    this.bus.postMessage(JSON.stringify(msg),'*');
-};
+    PermalinkHub.prototype.receiveAppRegistration = function(data){
+        this.collectionHandlers[data.collectionId] = data;
+        if(this.hasPermalinkModal)
+            this.messageModalAppInfo(data);
+    };
+
+    PermalinkHub.prototype.messageAppToPermalink = function(data){
+        var msg = {
+            from: 'permalink',
+            to: data.name,
+            action: 'put',
+            data: data
+        }
+        this.bus.postMessage(JSON.stringify(msg),'*');
+    };
+
+    PermalinkHub.prototype.messageModalAppInfo = function(data){
+        var msg = {
+            from: 'permalink',
+            to: 'permalink-modal',
+            action: 'post',
+            data: data
+        }
+        this.bus.postMessage(JSON.stringify(msg),'*');
+    };
 
 
-return PermalinkHub;
+    return PermalinkHub;
 });
