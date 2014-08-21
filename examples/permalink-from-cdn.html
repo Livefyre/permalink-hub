@@ -1,0 +1,157 @@
+<html>
+    <head>
+        <style>
+            .status {
+                height: 50px;
+                background-color: yellow;
+            }
+
+            .status.success {
+                background-color: green;
+            }
+
+            .status.failure {
+                background-color: red;
+            }
+
+            .app {
+                width: 200px;
+                border: 1px solid black;
+                display:inline-block;
+                margin: 5px;
+            }
+
+            .main-comms {
+                height: 200px;
+                margin-bottom: 10px;
+                overflow-y: scroll;
+            }
+
+            .comms {
+                height: 300px;
+                overflow-y: scroll;
+            }
+        </style>
+        <script>
+            var ARTICLE_RE = /[?&]articleId=([^&#]*)/;
+            var SITE_RE = /[?&]siteId=([^&#]*)/;
+            try {
+                var LF_articleId = document.location.href.match(ARTICLE_RE)[1];
+            } catch (e) {
+                document.write('<h1>USE ?articleId=XXX QUERY PARAM!</h1>');
+            }
+
+            try {
+                var LF_siteId = document.location.href.match(SITE_RE)[1];
+            } catch (e) {
+                document.write('<h1>USE ?siteId=XXX QUERY PARAM!</h1>');
+            }
+        </script>
+    </head>
+    <body>
+        <script src="" type="text/javascript">
+        //http://localhost:8080/examples/permalink-from-cdn.html?lfcdn=0&lfVersion[streamhub-permalink]=0.2.0-permalink-example&lfjsUrl=//livefyre-cdn.s3.amazonaws.com/libs/Livefyre/v0.4.0-permalink-example/Livefyre.js&siteId=286470&articleId=693988.437531517&#lf-content=91512382:10772933
+        </script>
+
+        <div class="main-comms">
+            <ul class="all-comms"></ul>
+        </div>
+        <button type="button">Clear</button>
+
+        <script type="text/javascript">
+            var comms = document.getElementsByClassName('all-comms')[0];
+            window.addEventListener("message", function(event){
+                comms.innerHTML = comms.innerHTML + '<li>'+ event.data +'</li>';
+            }, false);
+            var btn = document.getElementsByTagName('button')[0];
+            btn.onclick = function(){
+                comms.innerHTML = "";
+            }
+        </script>
+
+        <script type="text/javascript" src="https://cdn.livefyre.com/Livefyre.js">
+        </script>
+
+        <h1>Some Content</h1>
+
+        <button id='auth-button'></button>
+        <div id='auth-log'></div>
+
+        <div id="content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam non lacus eu lorem venenatis imperdiet. Nam vitae lorem fringilla tortor facilisis euismod. Integer pellentesque nibh in arcu aliquam, ut vestibulum tellus ornare. Nulla sodales, turpis in viverra posuere, tellus libero porta massa, quis laoreet nisl risus at justo. Etiam fringilla, sem in blandit adipiscing, magna nibh pretium massa, non ullamcorper massa felis nec enim. Praesent nec tortor condimentum, luctus enim quis, pretium orci. Maecenas euismod urna ac ultricies tristique. Nulla pellentesque justo est, eget ullamcorper dui ultricies nec. Suspendisse potenti. Etiam pellentesque dolor et risus ultrices, quis auctor ipsum pulvinar. Curabitur interdum enim ac hendrerit dictum. Maecenas turpis lectus, mollis id adipiscing vitae, ultrices sit amet justo. Nulla pellentesque varius commodo. Praesent vel dolor urna. Vivamus sed bibendum augue, vitae blandit nisl.</p>
+
+            <p>Cras euismod imperdiet mattis. Maecenas rhoncus, quam interdum venenatis ullamcorper, lacus nisl porttitor massa, nec vulputate purus lacus ac lectus. Sed sed urna dictum, malesuada ligula vitae, molestie odio. Phasellus ultrices justo leo, non pellentesque massa pulvinar sollicitudin. Curabitur et interdum magna. Duis varius nulla felis, et congue urna sollicitudin ac. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi semper libero vitae cursus pretium. Aliquam erat volutpat. Mauris a egestas tortor. Morbi non justo sit amet orci luctus adipiscing semper nec purus.</p>
+
+            <p>Morbi auctor <a href="http://google.com">vestibulum dui at <strong>faucibus. Etiam ut semper</strong> quam. Integer eget feugiat</a> nisi. Morbi dictum, orci in tincidunt porta, magna tellus sodales metus, a auctor tellus tellus vitae risus. Nullam pretium nisl non pretium cursus. Aliquam id consequat diam. In eu urna velit. Mauris sed mi augue. Mauris ac tincidunt mauris, luctus egestas nulla. Praesent sodales magna non enim adipiscing sodales et quis arcu. Pellentesque tempus vel urna non tincidunt. Sed tempus feugiat tortor eu ultrices. Mauris ac luctus diam. Sed et velit eget odio laoreet commodo et in nisl. Maecenas pellentesque a nisi sit amet ultrices. Donec interdum posuere condimentum.</p>
+
+            <p>Morbi molestie, neque non luctus consectetur, metus enim sodales felis, vel fringilla dui augue vel justo. Quisque convallis lectus lobortis sapien lobortis, sit amet convallis eros eleifend. Phasellus molestie quam a nulla porttitor, sit amet tempor nulla pulvinar. Vestibulum ullamcorper tristique fringilla. Quisque dignissim purus sit amet purus dictum, a mollis dolor scelerisque. Quisque eu pellentesque enim. Proin interdum posuere nibh, vel condimentum dolor tempus a. Pellentesque hendrerit ornare rutrum. Maecenas blandit leo lectus, eget consequat felis adipiscing ut. Fusce mauris orci, ullamcorper malesuada nibh at, dictum euismod risus. Phasellus congue, risus ut venenatis consectetur, nibh ligula rutrum justo, eget sagittis quam mauris pretium elit. Pellentesque fringilla elit augue, vel blandit est tristique eget. Donec et urna varius, convallis sapien et, consequat elit. Integer eleifend, magna quis aliquet pulvinar, risus lectus iaculis metus, nec pretium orci lacus ac urna. Phasellus volutpat velit ac velit laoreet, ac molestie nisl faucibus.</p>
+
+            <p>Aenean vestibulum hendrerit eros, at porttitor metus malesuada malesuada. Praesent condimentum quam at accumsan rhoncus. In elementum purus sed est sollicitudin bibendum. Aliquam auctor mollis dui at laoreet. Quisque accumsan nisl iaculis odio laoreet, non malesuada leo aliquet. Pellentesque eget interdum tortor, ut sollicitudin eros. Praesent id leo est. Maecenas sit amet eleifend eros. Mauris sit amet congue ante. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce egestas blandit scelerisque. Nam eget eros nisl. Duis et nunc massa.</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque et molestie velit, ac faucibus nisl. In tincidunt velit eget felis fringilla posuere. Ut fermentum, ipsum non sollicitudin consectetur, leo odio tempor odio, vel mollis diam erat non dolor. Donec et convallis libero, eget laoreet libero. Pellentesque mollis ligula nec elit bibendum tempor. Duis odio felis, hendrerit et ipsum id, malesuada interdum sapien. In sed feugiat nibh. Etiam rutrum dolor a velit gravida, in lacinia leo sagittis. Maecenas vitae accumsan ipsum.</p>
+
+            <img src="http://2.cdn.nhle.com/nhl/images/upload/2013/11/bruins_111113_big.jpg" />
+
+            <p>Donec neque enim, pharetra id tellus quis, lacinia ultrices eros. Nam condimentum mi in diam rhoncus, commodo elementum libero elementum. Morbi vulputate elit in egestas gravida. Mauris id sagittis elit. Sed aliquam iaculis placerat. Nunc posuere semper pharetra. Aenean at sodales tortor. Quisque faucibus fermentum risus, pellentesque lobortis libero viverra id.</p>
+
+            <p>Donec facilisis libero dolor, at tincidunt nulla commodo nec. Fusce pharetra sed felis suscipit posuere. Vestibulum ornare est quis viverra viverra. Nulla placerat interdum gravida. Donec non convallis augue. Donec condimentum, ante nec suscipit adipiscing, eros augue posuere diam, sed volutpat tortor quam a quam. Curabitur in erat quis est consectetur iaculis quis vel magna. Nullam molestie at diam ac pharetra. Suspendisse convallis hendrerit laoreet.</p>
+
+            <p>Fusce mattis tristique est non tincidunt. Vestibulum volutpat cursus rutrum. Aenean lectus elit, sollicitudin vel neque eu, porta tincidunt lectus. Integer euismod nunc vitae iaculis facilisis. Sed et congue nulla. Nunc fringilla sit amet magna a convallis. Quisque cursus cursus massa. Phasellus consequat tortor vitae tincidunt tempus.</p>
+
+            <p>Fusce ut tristique mi. Mauris id lectus eget eros pulvinar mattis id a velit. Nunc eu fermentum est, tincidunt lobortis neque. Cras arcu metus, volutpat eu dolor a, ultricies posuere massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc at enim quis diam fringilla porta eget ac turpis. Integer accumsan, felis ut faucibus venenatis, purus metus tincidunt nisi, at rutrum enim est id metus. Sed consequat risus quis turpis egestas, id vestibulum nisi ornare. In ac dolor augue. Vestibulum sit amet mi tellus. Praesent vitae quam convallis dui aliquam tristique. Integer quis sem massa.</p>
+
+            <p>Nulla tempor luctus mollis. Vestibulum consectetur sed orci at facilisis. Sed porta, nisl sit amet aliquet elementum, augue justo viverra velit, sit amet dignissim urna urna non arcu. Curabitur enim turpis, luctus nec aliquam nec, pellentesque a ligula. Curabitur imperdiet lacus non velit sagittis fermentum. Donec in risus in elit pretium lacinia. Donec justo felis, sodales at arcu in, mattis vestibulum enim. Donec eu ornare eros, sit amet pellentesque erat. Proin metus leo, lacinia ut auctor in, vulputate ut augue. Aenean id ornare odio. Etiam dignissim viverra purus quis tempus. Nulla mi orci, viverra in ultricies nec, congue vel magna.</p>
+
+            <p>Maecenas sed tortor at libero commodo porttitor ut auctor mauris. Etiam sed diam auctor, blandit sapien tincidunt, interdum sapien. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam ac erat urna. Nunc mollis libero accumsan accumsan placerat. Donec imperdiet nulla id velit pretium posuere. Sed molestie odio sit amet leo cursus, consectetur accumsan libero varius. Nulla porta, purus nec lobortis accumsan, lorem turpis aliquet turpis, eget venenatis nisl urna nec risus. Aliquam eleifend leo eu nunc dictum, a accumsan metus commodo.</p>
+
+            <p>Morbi a odio sollicitudin, sodales augue sed, eleifend libero. Phasellus venenatis sem ut urna feugiat, non gravida enim fermentum. Curabitur diam augue, cursus sed faucibus sed, tincidunt nec eros. Nunc ut lorem ac lacus vulputate aliquam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed felis augue, fringilla id cursus et, pellentesque sollicitudin ante. Nunc mi diam, convallis ut sodales at, cursus sed tortor. Aenean massa justo, ullamcorper sed enim vitae, adipiscing volutpat ante. Morbi quis hendrerit sapien. Phasellus tincidunt sit amet eros ut ultricies. Etiam eu felis eget purus iaculis imperdiet at id quam. Integer accumsan, velit ac condimentum ullamcorper, felis nisi posuere lacus, blandit cursus augue orci id elit. Nulla facilisi. Quisque rutrum turpis eros, vitae lobortis ipsum rutrum eu. Quisque vel leo elementum, tempor libero quis, volutpat dolor.</p>
+
+            <p>Nullam id nibh ut dui consectetur eleifend ut vitae mauris. Cras nisl neque, ullamcorper eget mauris ut, convallis tristique elit. Aliquam euismod nulla ut ipsum pulvinar ultrices. Nullam molestie, neque nec sagittis condimentum, est enim faucibus est, at placerat odio quam vitae ante. In a dui sit amet neque mattis consectetur quis ut odio. Sed dignissim lorem quis orci sodales bibendum. Phasellus sit amet auctor nulla. Proin molestie tincidunt arcu. Nullam viverra nisl dui, sed lobortis ligula aliquet ac. Morbi id orci at dolor sodales cursus. Quisque ac augue at quam hendrerit tincidunt eu quis tellus. Curabitur id mi viverra, cursus neque sed, lacinia mi. Proin metus nunc, egestas a nibh sed, vestibulum mollis nisi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
+
+            <p>Vestibulum dignissim ut massa in blandit. Integer eu neque auctor enim sollicitudin ornare. Phasellus dignissim, nisi nec aliquam venenatis, nulla lectus sodales urna, eu consectetur mauris nisl nec justo. In in justo justo. Nulla eu neque iaculis, convallis nunc sit amet, cursus ipsum. Etiam ultricies vel nisi eget porttitor. Suspendisse cursus, ligula eget lobortis consectetur, quam nunc fermentum massa, porttitor suscipit erat massa a tortor. In at egestas sapien. Praesent pretium, neque nec imperdiet interdum, arcu mauris malesuada metus, et malesuada ipsum neque a sem. Vivamus quis tincidunt libero, posuere varius sem. Pellentesque mauris mauris, condimentum vel ullamcorper ut, semper quis felis. Etiam tempor massa eget felis placerat consequat. Morbi at elit a ipsum cursus convallis. Sed elementum nunc eu nisl suscipit, at vulputate libero gravida. Aenean porta faucibus rutrum.</p>
+
+            <p>Proin ac scelerisque urna, eu aliquam arcu. Quisque imperdiet a tortor a vehicula. Nam gravida justo vitae sem tempor pharetra. Nam nec ipsum eu libero mollis iaculis. Phasellus adipiscing massa sit amet malesuada tincidunt. Nullam vestibulum bibendum lorem, eu sagittis metus pretium vel. Nunc consectetur, neque at dignissim sodales, erat lacus lacinia tortor, et porta purus orci eu diam. Cras tincidunt sed ante eu porta. Morbi et libero sed mi ullamcorper scelerisque. Sed eget tellus feugiat, iaculis sapien eu, lobortis risus. Pellentesque interdum diam id dui bibendum semper. Duis vel gravida mauris, at pretium felis.</p>
+
+            <p>Aliquam ac tortor gravida, elementum nibh pellentesque, rutrum tellus. Phasellus ac vestibulum nulla. Aenean lobortis erat eget eros molestie laoreet. Morbi quis rutrum ante. Integer auctor pulvinar pulvinar. Aenean sagittis turpis sit amet est egestas, nec elementum odio luctus. In dolor mauris, euismod a dignissim ut, accumsan dapibus metus.</p>
+        </div>
+    </body>
+        <script>
+            Livefyre.require([
+                'sidenotes#1.1.14-permalink-example',
+                'auth/contrib/auth-button',
+                'livefyre-auth/livefyre-auth-delegate',
+                'livefyre-auth',
+                'auth'
+            ], function(Annotations, Auth, createAuthButton, createAuthLog) {
+                //Auth.delegate(Auth.createDelegate('http://livefyre.com'));
+
+                //createAuthButton(Auth, document.getElementById('auth-button'));
+                //createAuthLog(Auth, document.getElementById('auth-log'));
+
+                var a = new Annotations({
+                    selectors: '#content p, #content img',
+                    collection: {
+                        articleId: LF_articleId  || '5919',
+                        network: 'livefyre.com',
+                        // environment: 'fy.re',
+                        siteId: LF_siteId || '4'
+                    },
+                    collectionMeta: {
+                        articleId: LF_articleId,
+                        title: 'New annotations collection for article #' + LF_articleId + ' site#' + LF_siteId,
+                        url: 'http://fyre.' + LF_articleId,
+                        checksum: String(Math.random())
+                    },
+                    numSidenotesEl: document.getElementsByTagName('h1')[0],
+                    customStyles: {
+                        numSidenotes: {
+                            height: '40px'
+                        },
+                        numSidenotesPopover: {
+                            height: '400px'
+                        }
+                    }
+                });
+            });
+        </script>
+</html>
