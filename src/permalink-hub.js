@@ -4,18 +4,17 @@ define([], function(){
         this.hasPermalinkModal = false;
         this.bus = opts.bus || window;
 
-        this._msgEvent = this.bus.addEventListener ? 'message' : 'onmessage';
-        this._addEvent = this.bus.addEventListener || bus.attachEvent;
+        var msgEvent = this.bus.addEventListener ? 'message' : 'onmessage';
+        var addEvent = this.bus.addEventListener || this.bus.attachEvent;
 
         var self = this;
-        this._addEvent(this._msgEvent, function(event){
+        addEvent(msgEvent, function(event){
             self.onPostMessage.call(self, event);
         }, false);
     }
 
     PermalinkHub.prototype.onPostMessage = function(event){
         var msg = null; 
-
         if(typeof event.data === 'object') 
             msg = event.data 
         else {
