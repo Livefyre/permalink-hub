@@ -4,7 +4,10 @@ define([], function(){
         this.hasPermalinkModal = false;
         this.bus = opts.bus || window;
 
-        this.bus.addEventListener('message', this.onPostMessage.bind(this), false);
+        var self = this;
+        this.bus.addEventListener('message', function(event){
+            self.onPostMessage.call(self, event);
+        }, false);
     }
 
     PermalinkHub.prototype.onPostMessage = function(event){
