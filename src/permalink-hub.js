@@ -4,8 +4,11 @@ define([], function(){
         this.hasPermalinkModal = false;
         this.bus = opts.bus || window;
 
+        this._msgEvent = bus.addEventListener ? 'message' : 'onmessage';
+        this._addEvent = bus.addEventListener || bus.attachEvent;
+
         var self = this;
-        this.bus.addEventListener('message', function(event){
+        this._addEvent(this._msgEvent, function(event){
             self.onPostMessage.call(self, event);
         }, false);
     }
@@ -75,7 +78,6 @@ define([], function(){
         }
         this.bus.postMessage(JSON.stringify(msg),'*');
     };
-
 
     return PermalinkHub;
 });
