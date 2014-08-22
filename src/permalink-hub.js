@@ -4,8 +4,8 @@ define([], function(){
         this.hasPermalinkModal = false;
         this.bus = opts.bus || window;
 
-        this._msgEvent = bus.addEventListener ? 'message' : 'onmessage';
-        this._addEvent = bus.addEventListener || bus.attachEvent;
+        this._msgEvent = this.bus.addEventListener ? 'message' : 'onmessage';
+        this._addEvent = this.bus.addEventListener || bus.attachEvent;
 
         var self = this;
         this._addEvent(this._msgEvent, function(event){
