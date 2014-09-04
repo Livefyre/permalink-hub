@@ -42,14 +42,19 @@ define([], function(){
     };
 
     PermalinkHub.prototype.receiveModalHaveAppPermalink = function(data){
-        debugger;
         var apps = this.collectionHandlers[data.collectionId] || []
+        console.log('collectionHandlers ', this.collectionHandlers, data.collectionId)
         for(var i = 0; i < apps.length; i++)
             this.messageAppToPermalink(apps[i], data);        
     };
 
+
+    //This isn't as important as before now that we broadcast to all apps
+    //listening to the model collection. We could remoe this entirely and 
+    //send the Model a message to show or not show its button.
     PermalinkHub.prototype.receiveModalRegistration = function(data){
         if(this.hasPermalinkModal) return;
+
         this.hasPermalinkModal = true;
         for(key in this.collectionHandlers)
             for(var i = 0; i < this.collectionHandlers[key].length; i++)
