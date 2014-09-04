@@ -37,7 +37,7 @@ define([], function(){
 
         if(msg.action === 'put'){
             if(msg.from === 'permalink-modal')
-                this.messageAppToPermalink(msg.data);
+                this.receiveModalHaveAppPermalink(msg.data);
         }      
     };
 
