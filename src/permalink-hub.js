@@ -42,10 +42,9 @@ define([], function(){
     };
 
     PermalinkHub.prototype.receiveModalHaveAppPermalink = function(data){
-        var apps = this.collectionHandlers[data.collectionId] || []
-        console.log('collectionHandlers ', this.collectionHandlers, data.collectionId)
+        var apps = this.collectionHandlers[data.collectionId] || [];
         for(var i = 0; i < apps.length; i++)
-            this.messageAppToPermalink(apps[i], data);        
+            this.messageAppToPermalink(apps[i].name, data);        
     };
 
 
@@ -68,10 +67,10 @@ define([], function(){
             this.messageModalAppInfo(data);
     };
 
-    PermalinkHub.prototype.messageAppToPermalink = function(app, data){
+    PermalinkHub.prototype.messageAppToPermalink = function(appName, data){
         var msg = {
             from: 'permalink',
-            to: app,
+            to: appName,
             action: 'put',
             data: data
         }
