@@ -17,5 +17,8 @@
     "cajon": "~0.1.11",
     "require-less": "git://github.com/gobengo/require-less#deponcss",
     "require-css": "git://github.com/gobengo/require-css#~0.2"
+  },
+  "resolutions": {
+    "require-css": "transformEach2"
   }
 }

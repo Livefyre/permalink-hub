@@ -50,7 +50,7 @@
     </head>
     <body>
         <script src="" type="text/javascript">
-        //http://localhost:8080/examples/permalink-from-cdn.html?lfcdn=0&lfVersion[streamhub-permalink]=0.2.0-permalink-example&lfjsUrl=//livefyre-cdn.s3.amazonaws.com/libs/Livefyre/v0.4.0-permalink-example/Livefyre.js&siteId=4&articleId=6556-sidenotes&#lf-content=89335249:01184bbe19f6426c87c3428ffb364b38@livefyre.com
+        //http://localhost:8080/examples/permalink-from-cdn.html?lfcdn=0&lfVersion%5Bstreamhub-permalink%5D=0.2.0-permalink-example&lfjsUrl=//livefyre-cdn.s3.amazonaws.com/libs/Livefyre/v0.4.0-permalink-example/Livefyre.js&siteId=4&articleId=6556-sidenotes&#lf-content=89335249%3A01184bbe19f6426c87c3428ffb364b38%40livefyre.com
         </script>
 
         <div class="main-comms">
@@ -68,7 +68,7 @@
                 comms.innerHTML = "";
             }
         </script>
-
+        <script src="http://widget.fyre/compile?id=lfconv"></script>
         <script type="text/javascript" src="https://cdn.livefyre.com/Livefyre.js">
         </script>
 
@@ -88,6 +88,9 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam non lacus eu lorem venenatis imperdiet. Nam vitae lorem fringilla tortor facilisis euismod. Integer pellentesque nibh in arcu aliquam, ut vestibulum tellus ornare. Nulla sodales, turpis in viverra posuere, tellus libero porta massa, quis laoreet nisl risus at justo. Etiam fringilla, sem in blandit adipiscing, magna nibh pretium massa, non ullamcorper massa felis nec enim. Praesent nec tortor condimentum, luctus enim quis, pretium orci. Maecenas euismod urna ac ultricies tristique. Nulla pellentesque justo est, eget ullamcorper dui ultricies nec. Suspendisse potenti. Etiam pellentesque dolor et risus ultrices, quis auctor ipsum pulvinar. Curabitur interdum enim ac hendrerit dictum. Maecenas turpis lectus, mollis id adipiscing vitae, ultrices sit amet justo. Nulla pellentesque varius commodo. Praesent vel dolor urna. Vivamus sed bibendum augue, vitae blandit nisl.</p>
 
         </div>
+
+
+        <div id="livefyre" class="fyre"></div>
     </body>
         <script>
             Livefyre.require([
@@ -118,6 +121,27 @@
                         }
                     }
                 });
+
+                /*var comments = new Conv({}, [{
+                    siteId: 4,
+                    el: 'livefyre',
+                    articleId: '6556',
+                    networkId: 'livefyre.com'
+                    /*siteId: 315833,
+                    el: 'livefyre',
+                    articleId: 'sfaafdfs',
+                    networkId: 'labs.fyre.co',
+                }]);*/
+
+                fyre.conv.load({
+                    'env': 'prod',
+                    'network': 'livefyre.com'
+                }, [{
+                    app: 'main',
+                    siteId: LF_siteId,
+                    el: 'livefyre',
+                    articleId: LF_articleId
+                }]);
             });
         </script>
 </html>

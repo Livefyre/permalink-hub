@@ -42,26 +42,31 @@ define([], function(){
     };
 
     PermalinkHub.prototype.receiveModalHaveAppPermalink = function(data){
-        this.messageAppToPermalink(data);
+        debugger;
+        var apps = this.collectionHandlers[data.collectionId] || []
+        for(var i = 0; i < apps.length; i++)
+            this.messageAppToPermalink(apps[i], data);        
     };
 
     PermalinkHub.prototype.receiveModalRegistration = function(data){
         if(this.hasPermalinkModal) return;
         this.hasPermalinkModal = true;
         for(key in this.collectionHandlers)
-            this.messageModalAppInfo(this.collectionHandlers[key]);
+            for(var i = 0; i < this.collectionHandlers[key].length; i++)
+                this.messageModalAppInfo(this.collectionHandlers[key][i]);
     };
 
     PermalinkHub.prototype.receiveAppRegistration = function(data){
-        this.collectionHandlers[data.collectionId] = data;
+        this.collectionHandlers[data.collectionId] = this.collectionHandlers[data.collectionId] || []
+        this.collectionHandlers[data.collectionId].push(data);
         if(this.hasPermalinkModal)
             this.messageModalAppInfo(data);
     };
 
-    PermalinkHub.prototype.messageAppToPermalink = function(data){
+    PermalinkHub.prototype.messageAppToPermalink = function(app, data){
         var msg = {
             from: 'permalink',
-            to: data.name,
+            to: app,
             action: 'put',
             data: data
         }
