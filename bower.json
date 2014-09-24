@@ -1,6 +1,6 @@
 {
   "name": "permalink-hub",
-  "version": "0.0.0-permalink-example",
+  "version": "0.0.1",
   "main": [
     "./src/main.js"
   ],
