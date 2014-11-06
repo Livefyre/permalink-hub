@@ -1,8 +1,26 @@
 define([], function(){
+   function getContentPermalink() {
+        var retval;
+        var value = window.location.hash ? window.location.hash.split('=') : [];
+        value = value.length > 0 ? value[value.length-1] : null;
+        if (value) {
+            retval = {};
+            value = value.split(':');
+            if (value.length === 3) {
+                retval.environment = value.shift();
+            }
+            retval.collectionId = value[0];
+            retval.contentId = value[1];
+        }
+        return retval;
+    };
+
     function PermalinkHub(opts){
         this.collectionHandlers = {};
         this.hasPermalinkModal = false;
         this.bus = opts.bus || window;
+        this.modalDisabled = opts.modalDisabled;
+        this.permalinkData = getContentPermalink();
 
         var msgEvent = this.bus.addEventListener ? 'message' : 'onmessage';
         var addEvent = this.bus.addEventListener || this.bus.attachEvent;
@@ -63,8 +81,12 @@ define([], function(){
     PermalinkHub.prototype.receiveAppRegistration = function(data){
         this.collectionHandlers[data.collectionId] = this.collectionHandlers[data.collectionId] || []
         this.collectionHandlers[data.collectionId].push(data);
-        if(this.hasPermalinkModal)
+        if(this.hasPermalinkModal && !this.modalDisabled) {
             this.messageModalAppInfo(data);
+        } else if (this.modalDisabled){
+            data.contentId = this.permalinkData.contentId;
+            this.messageAppToPermalink(data.name, data);
+        }
     };
 
     PermalinkHub.prototype.messageAppToPermalink = function(appName, data){
